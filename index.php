@@ -132,18 +132,22 @@
 
 		<?php ## uTorrent Web GUI ?>
 		<?php if( $config['uTorrent'] ) : ?>
-		<a href="<?= $config['uTorrentURL']; ?>:<?= $config['uTorrentPort']; ?>" title="uTorrent" class="actionButton big utorrent"><span>uTorrent</span></a>
+		<a href="<?= $config['uTorrentURL']; ?>:<?= $config['uTorrentPort']; ?>/gui/" title="uTorrent" class="actionButton big utorrent"><span>uTorrent</span></a>
 
-		<?php /*
 		<div class="sabDownload">
 			<h2>Currently Downloading</h2>
 			<?php
 
-				$torrentData = simplexml_load_file($config['uTorrentURL'].":".$config['uTorrentPort']."/gui/?list=1&token=".$config['uTorrentHash']);
+				//$torrentData = file_get_contents($config['uTorrentURL'].":".$config['uTorrentPort']."/gui/?list=1&token=".$config['uTorrentHash']);
+				//$torrentJSON = json_decode($torrentData);
+
+				//$url = "http://192.168.1.1:8089/gui/?list=1&token=0l-ws0vnlN3D7bW5ZLHJFDCTLr4tx-BCyChHfsKnR0D6eGBEA7ed_lf0fk8AAAAA";
+				//$url = "http://192.168.1.1:8089/gui/token.html";
+				//header('WWW-Authenticate: Basic dGVzdDp0ZXN0');
+				//print_r(get_headers($url));
 
 			?>
 		</div>
-		*/ ?>
 		<?php endif; ?>
 
 		<div class="clearLeft"></div>
