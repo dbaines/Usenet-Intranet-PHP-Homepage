@@ -1,63 +1,4 @@
-<?php 
-
-	/* =======================================================
-
-	INITIAL SET UP
-
-	======================================================= */
-
-	$config = array(
-
-		# Services
-		# Set these to false to disable them
-		"sickbeard" => true,
-		"couchpotato" => true,
-		"headphones" => true,
-		"sabnzbd" => true,
-
-		# URLs and Ports
-		"sickbeardURL" => "http://192.168.1.1",
-		"sickbeardPort" => "8081",
-		"sickbeardAPI" => "",
-		"sabnzbdURL" => "http://192.168.1.1",
-		"sabnzbdPort" => "8080",
-		"sabnzbdAPI" => "",
-		"couchpotatoURL" => "http://192.168.1.1",
-		"couchpotatoPort" => "5000",
-		"headphonesURL" => "http://192.168.1.1",
-		"headphonesPort" => "8181",
-
-		# Show currently downloading?
-		"currentlyDownloading" => true,
-
-		#Show TV Today?
-		"todaysShows" => true,
-
-		# Sickbeard - Missed or Coming?
-		# Australia, for example, is almost an entire day ahead of America and so American TV shows 
-		# air the day after they say they're going to air, so instead of "coming shows", we use "missed shows"
-		# to indicate what's coming out today. 
-		# Set to true for "missed" (Oz), false for "coming" (US)
-		"sickMissed" => false,
-
-		# Show popups when hovering over coming shows?
-		"sickPopups" => true,
-
-		# Wifi
-		# WifiName is also used for page title
-		"showWifi" => true,
-		"wifiName" => "Home Network",
-		"wifiPassword" => "abcd1234"
-
-	);
-
-	/* =======================================================
-
-	END SET UP
-
-	======================================================= */
-
-?>
+<?php include('intranet/serverconfig.php'); ?>
 <!doctype html>
 <html>
 	<head>
@@ -68,7 +9,7 @@
 		<h1><?= $config['wifiName']; ?> Server</h1>
 
 		<?php ## Check if everything is disabled
-			if (!$config['sickbeard'] && !$config['couchpotato'] && !$config['headphones'] && !$config['sabnzbd'] && !$config['showWifi']) :
+			if (!$config['sickbeard'] && !$config['couchpotato'] && !$config['headphones'] && !$config['sabnzbd'] && !$config['showWifi'] && !$config['showTrailers']) :
 
 				echo "<img src='intranet/images/mymanjackie.png' />";
 
@@ -76,7 +17,6 @@
 		?>
 		
 		<?php if( $config['sickbeard'] ) : 
-			  if( $config['todaysShows'] ) : 
 			  if ( $config['sickMissed'] ) : $sbType = "missed"; else: $sbType = "today"; endif;
 		?>
 		<div class="sickbeardShows">
@@ -85,7 +25,7 @@
 				$sbJSON = file_get_contents($config['sickbeardURL'].":".$config['sickbeardPort']."/api/".$config['sickbeardAPI']."/?cmd=future&sort=date&type=".$sbType);
 				$sbShows = json_decode($sbJSON);
 
-				echo "<ul>";
+				echo "<ul class='comingShows'>";
 
 				# List shows
 				if(empty($sbShows)){
@@ -110,9 +50,38 @@
 					} 
 				}
 				echo "</ul>";
+
+				$sbJSONdone = file_get_contents($config['sickbeardURL'].":".$config['sickbeardPort']."/api/".$config['sickbeardAPI']."/?cmd=history&limit=15");
+				$sbShowsdone = json_decode($sbJSONdone);
+				$todaysDate = date('Y-m-d');
+
+				echo "<ul class='snatchedShows'>";
+
+				# List shows
+				# Run through each show
+				foreach($sbShowsdone->{'data'} as $episode) {
+
+					if (substr($episode->date,0,10) == $todaysDate) :
+
+					echo "<li>";
+
+					# Sickbeard Popups
+					if($config ['sickPopups']) :
+					echo "<span class='showPopup'>";
+					echo "<img src='".$config['sickbeardURL'].":".$config['sickbeardPort']."/showPoster/?show=".$episode->{'tvdbid'}."&which=poster' class='showposter' />";
+					echo "</span>";
+					endif;
+
+					# Show name and number
+					echo "<strong class='showname'>".$episode->{'show_name'}." <small>".$episode->{'season'}."x".$episode->{'episode'}."</small></strong>";
+					echo "</li>";
+					endif;
+				} 
+				echo "</ul>";
+
 			?>
 		</div>
-		<?php endif; endif; ?>
+		<?php endif; ?>
 
 		<?php ## Action Buttons ?>
 		<?php if( $config['sickbeard'] ) : ?>
@@ -129,37 +98,36 @@
 		<?php if( $config['sabnzbd'] ) : ?>
 		<a href="<?= $config['sabnzbdURL']; ?>:<?= $config['sabnzbdPort']; ?>" title="SABnzbd" class="actionButton big sabnzb"><span>SABnzbd</span></a>
 
-			<?php if( $config['currentlyDownloading'] ) : ?>
-			<div class="sabDownload">
-				<h2>Currently Downloading</h2>
-				<?php
+		<div class="sabDownload">
+			<h2>Currently Downloading</h2>
+			<?php
 
-					$data = simplexml_load_file($config['sabnzbdURL'].":".$config['sabnzbdPort']."/sabnzbd/api?mode=qstatus&output=xml&apikey=".$config['sabnzbdAPI']);
-					$filename = $data->jobs[0]->job->filename;
-					$mbFull = $data->jobs[0]->job->mb;
-					$mbLeft = $data->jobs[0]->job->mbleft;
-					$mbDone = $mbFull - $mbLeft;
+				$data = simplexml_load_file($config['sabnzbdURL'].":".$config['sabnzbdPort']."/sabnzbd/api?mode=qstatus&output=xml&apikey=".$config['sabnzbdAPI']);
+				$filename = $data->jobs[0]->job->filename;
+				$mbFull = $data->jobs[0]->job->mb;
+				$mbLeft = $data->jobs[0]->job->mbleft;
+				$mbDone = $mbFull - $mbLeft;
 
-					if($filename) {
+				if($filename) {
 
-						$mbFullNoRound = explode(".",$mbFull);
-						$mbPercent = $mbDone / $mbFullNoRound[0] * 100;
-						$mbPercentPretty = explode(".",$mbPercent);
+					$mbFullNoRound = explode(".",$mbFull);
+					$mbPercent = $mbDone / $mbFullNoRound[0] * 100;
+					$mbPercentPretty = explode(".",$mbPercent);
 
-						echo "<span class='currentdl'>".$filename."</span>";
-						echo "<progress value='".$mbDone."' max='".$mbFull."'></progress>";
-						echo "<span class='stats'>".$mbDone."mb / ".$mbFullNoRound[0]."mb (".$mbPercentPretty[0]."%) @ ". $data->speed ."</span>";
+					echo "<span class='currentdl'>";
+					if ($data->paused == "True") {echo "PAUSED: ";}
+					echo $filename."</span>";
+					echo "<progress value='".$mbDone."' max='".$mbFull."'></progress>";
+					echo "<span class='stats'>".$mbDone."mb / ".$mbFullNoRound[0]."mb (".$mbPercentPretty[0]."%) @ ". $data->speed ."</span>";
 
-					} else {
-						
-						echo "<em class='currentdl'>No current downloads</em>";
+				} else {
+					
+					echo "<em class='currentdl'>No current downloads</em>";
 
-					}
-				?>
+				}
+			?>
 
-			</div>
-			<?php endif; ?>
-
+		</div>
 		<?php endif; ?>
 		<div class="clearLeft"></div>
 
@@ -171,8 +139,15 @@
 			</div>
 		<?php endif; ?>
 
+		<?php if( $config['showTrailers'] ) : ?>
+		<div class="clearLeft secondaryButtons">
+			<a href="http://www.hd-trailers.net/" target="_blank" class="actionButton small icon iconTrailer"><span>Online Trailer Downloads</span></a>
+		</div>
+		<?php endif; ?>
+
 		<?php ## Ending check for all-disabled ?>
 		<?php endif; ?>
+
 
 	</body>
 </html>

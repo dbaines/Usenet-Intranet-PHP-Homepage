@@ -13,7 +13,7 @@ h2 {padding-bottom: 10px;}
 .clearLeft {clear: left;}
 
 /* Butons */
-.actionButton {display: block; float: left; border: 1px solid #9e9e9e; background: transparent; margin-right: 35px; text-indent: -999px; outline: none; border-radius: 6px; box-shadow: 0 1px 0 rgba(255,255,255,.7), inset 0 1px rgba(255,255,255,.7); 
+.actionButton {display: block; float: left; border: 1px solid #9e9e9e; border-color: rgba(0,0,0,0.15); background: transparent; margin-right: 35px; outline: none; border-radius: 6px; box-shadow: 0 1px 0 rgba(255,255,255,.7), inset 0 1px rgba(255,255,255,.7); 
 		background-image: -webkit-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 100%);
 		background-image: -moz-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 100%);
 		background-image: -o-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 100%);
@@ -23,7 +23,7 @@ h2 {padding-bottom: 10px;}
 		-o-transition: all .2s ease-in-out;
 		transition: all .2s ease-in-out;
 	}
-	.actionButton:hover {
+	.actionButton:hover {border-color: rgba(0,0,0,0.3);
 		background-image: -webkit-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,0.1) 100%);
 		background-image: -moz-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,0.1) 100%);
 		background-image: linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,0.1) 100%);
@@ -35,11 +35,17 @@ h2 {padding-bottom: 10px;}
 		             0 0 15px rgba(138,197,233,1);
 	}
 
+	.actionButton.big {text-indent: -999px;}
+	.actionButton.small {padding: 15px; text-decoration: none; color: #222;}
 	.actionButton.big span {width: 206px; height: 97px; display: block; background-position: center; background-repeat: no-repeat;}
 	.actionButton.sickbeard span {background-image: url("images/sickbeard.png");}
 	.actionButton.couchpotato span {background-image: url("images/couch.png"); background-position: center bottom;}
 	.actionButton.headphones span {background-image: url("images/headphones.png");}
 	.actionButton.sabnzb span {background-image: url("images/sab.png");}
+
+	.secondaryButtons {padding-top: 30px;}
+	.actionButton.icon span {background-position: 0 50%; background-repeat: no-repeat; padding-left: 25px;}
+	.actionButton.iconTrailer span {background-image: url("images/trailers.png");}
 
 
 /* =========================================================
@@ -59,6 +65,10 @@ h2 {padding-bottom: 10px;}
 		.showPopupBlurb {color: #fff; text-shadow: none; font-size: 85%; padding: 10px; display: block;}
 	.sickbeardShows li:hover .showPopup {display: block;}
 	.showposter {width: 120px; float: left; margin-right: 10px;}
+
+	.snatchedShows li {background: url("images/tick.png") left no-repeat; padding-left: 25px;}
+		.snatchedShows strong {color: #346d90; font-weight: normal;}
+		.snatchedShows .showPopup {top: -200%;}
 
 /* =========================================================
 
