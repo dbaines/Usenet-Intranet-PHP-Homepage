@@ -16,21 +16,28 @@
 		"sabnzbd" => true,
 
 		# URLs and Ports
-		"sickbeardURL" => "http://192.168.1.6",
+		"sickbeardURL" => "http://192.168.1.1",
 		"sickbeardPort" => "8081",
-		"sabnzbdURL" => "http://192.168.1.6",
+		"sickbeardAPI" => "",
+		"sabnzbdURL" => "http://192.168.1.1",
 		"sabnzbdPort" => "8080",
-		"couchpotatoURL" => "http://192.168.1.6",
+		"sabnzbdAPI" => "",
+		"couchpotatoURL" => "http://192.168.1.1",
 		"couchpotatoPort" => "5000",
-		"headphonesURL" => "http://192.168.1.6",
+		"headphonesURL" => "http://192.168.1.1",
 		"headphonesPort" => "8181",
-	
+
+		# Show currently downloading?
+		"currentlyDownloading" => true,
+
+		#Show TV Today?
+		"todaysShows" => true,
 
 		# Sickbeard - Missed or Coming?
 		# Australia, for example, is almost an entire day ahead of America and so American TV shows 
 		# air the day after they say they're going to air, so instead of "coming shows", we use "missed shows"
 		# to indicate what's coming out today. 
-		# Set to true for "missed", false for "coming"
+		# Set to true for "missed" (Oz), false for "coming" (US)
 		"sickMissed" => false,
 
 		# Show popups when hovering over coming shows?
@@ -69,12 +76,13 @@
 		?>
 		
 		<?php if( $config['sickbeard'] ) : 
+			  if( $config['todaysShows'] ) : 
 			  if ( $config['sickMissed'] ) : $sbType = "missed"; else: $sbType = "today"; endif;
 		?>
 		<div class="sickbeardShows">
 			<h3>TV Today</h3>
 			<?php
-				$sbJSON = file_get_contents($config['sickbeardURL'].":".$config['sickbeardPort']."/api/2fcc92a573de2468ae7ee36e351b45a9/?cmd=future&sort=date&type=".$sbType);
+				$sbJSON = file_get_contents($config['sickbeardURL'].":".$config['sickbeardPort']."/api/".$config['sickbeardAPI']."/?cmd=future&sort=date&type=".$sbType);
 				$sbShows = json_decode($sbJSON);
 
 				echo "<ul>";
@@ -104,7 +112,7 @@
 				echo "</ul>";
 			?>
 		</div>
-		<?php endif; ?>
+		<?php endif; endif; ?>
 
 		<?php ## Action Buttons ?>
 		<?php if( $config['sickbeard'] ) : ?>
@@ -121,34 +129,37 @@
 		<?php if( $config['sabnzbd'] ) : ?>
 		<a href="<?= $config['sabnzbdURL']; ?>:<?= $config['sabnzbdPort']; ?>" title="SABnzbd" class="actionButton big sabnzb"><span>SABnzbd</span></a>
 
-		<div class="sabDownload">
-			<h2>Currently Downloading</h2>
-			<?php
+			<?php if( $config['currentlyDownloading'] ) : ?>
+			<div class="sabDownload">
+				<h2>Currently Downloading</h2>
+				<?php
 
-				$data = simplexml_load_file($config['sabnzbdURL'].":".$config['sabnzbdPort']."/sabnzbd/api?mode=qstatus&output=xml&apikey=9f12df23f52c19ae0ac55caac9dd161d");
-				$filename = $data->jobs[0]->job->filename;
-				$mbFull = $data->jobs[0]->job->mb;
-				$mbLeft = $data->jobs[0]->job->mbleft;
-				$mbDone = $mbFull - $mbLeft;
+					$data = simplexml_load_file($config['sabnzbdURL'].":".$config['sabnzbdPort']."/sabnzbd/api?mode=qstatus&output=xml&apikey=".$config['sabnzbdAPI']);
+					$filename = $data->jobs[0]->job->filename;
+					$mbFull = $data->jobs[0]->job->mb;
+					$mbLeft = $data->jobs[0]->job->mbleft;
+					$mbDone = $mbFull - $mbLeft;
 
-				if($filename) {
+					if($filename) {
 
-					$mbFullNoRound = explode(".",$mbFull);
-					$mbPercent = $mbDone / $mbFullNoRound[0] * 100;
-					$mbPercentPretty = explode(".",$mbPercent);
+						$mbFullNoRound = explode(".",$mbFull);
+						$mbPercent = $mbDone / $mbFullNoRound[0] * 100;
+						$mbPercentPretty = explode(".",$mbPercent);
 
-					echo "<span class='currentdl'>".$filename."</span>";
-					echo "<progress value='".$mbDone."' max='".$mbFull."'></progress>";
-					echo "<span class='stats'>".$mbDone."mb / ".$mbFullNoRound[0]."mb (".$mbPercentPretty[0]."%) @ ". $data->speed ."</span>";
+						echo "<span class='currentdl'>".$filename."</span>";
+						echo "<progress value='".$mbDone."' max='".$mbFull."'></progress>";
+						echo "<span class='stats'>".$mbDone."mb / ".$mbFullNoRound[0]."mb (".$mbPercentPretty[0]."%) @ ". $data->speed ."</span>";
 
-				} else {
-					
-					echo "<em class='currentdl'>No current downloads</em>";
+					} else {
+						
+						echo "<em class='currentdl'>No current downloads</em>";
 
-				}
-			?>
+					}
+				?>
 
-		</div>
+			</div>
+			<?php endif; ?>
+
 		<?php endif; ?>
 		<div class="clearLeft"></div>
 
