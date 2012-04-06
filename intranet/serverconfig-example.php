@@ -7,6 +7,7 @@
 		"couchpotato" => true,
 		"headphones" => true,
 		"sabnzbd" => true,
+		"uTorrent" => true,
 
 		# URLs and Ports
 		"sickbeardURL" => "http://192.168.1.1",
