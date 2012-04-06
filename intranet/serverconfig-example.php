@@ -19,6 +19,9 @@
 		"couchpotatoPort" => "5000",
 		"headphonesURL" => "http://192.168.1.1",
 		"headphonesPort" => "8181",
+		"uTorrentURL" => "http://192.168.1.1",
+		"uTorrentPort" => "8089",
+		"uTorrentToken" => "0l-ws0vnlN3D7bW5ZLHJFDCTLr4tx-BCyChHfsKnR0D6eGBEA7ed_lf0fk8AAAAA",
 
 		# Sickbeard - Missed or Coming?
 		# Australia, for example, is almost an entire day ahead of America and so American TV shows 

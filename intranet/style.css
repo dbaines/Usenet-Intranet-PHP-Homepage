@@ -42,6 +42,7 @@ h2 {padding-bottom: 10px;}
 	.actionButton.couchpotato span {background-image: url("images/couch.png"); background-position: center bottom;}
 	.actionButton.headphones span {background-image: url("images/headphones.png");}
 	.actionButton.sabnzb span {background-image: url("images/sab.png");}
+	.actionButton.utorrent span {background-image: url("images/utorrent.png");}
 
 	.secondaryButtons {padding-top: 30px;}
 	.actionButton.icon span {background-position: 0 50%; background-repeat: no-repeat; padding-left: 25px;}
@@ -85,6 +86,13 @@ progress {background-color: #bfbfbf !important; height: 4px; width: 100%; box-sh
 	progress::-webkit-progress-value {background: #4ba0d5;}
 	progress::-webkit-progress-bar {background: #bfbfbf;}
 	progress::-moz-progress-bar {background: #4ba0d5;}
+
+/* =========================================================
+
+	UTORRENT DETAILS
+
+========================================================= */
+.actionButton.utorrent {clear: left; margin-top: 30px;}
 
 /* =========================================================
 

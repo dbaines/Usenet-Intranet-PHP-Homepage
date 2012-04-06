@@ -129,6 +129,23 @@
 
 		</div>
 		<?php endif; ?>
+
+		<?php ## uTorrent Web GUI ?>
+		<?php if( $config['uTorrent'] ) : ?>
+		<a href="<?= $config['uTorrentURL']; ?>:<?= $config['uTorrentPort']; ?>" title="uTorrent" class="actionButton big utorrent"><span>uTorrent</span></a>
+
+		<?php /*
+		<div class="sabDownload">
+			<h2>Currently Downloading</h2>
+			<?php
+
+				$torrentData = simplexml_load_file($config['uTorrentURL'].":".$config['uTorrentPort']."/gui/?list=1&token=".$config['uTorrentHash']);
+
+			?>
+		</div>
+		*/ ?>
+		<?php endif; ?>
+
 		<div class="clearLeft"></div>
 
 		<?php ## Wifi ?>
@@ -141,7 +158,7 @@
 
 		<?php if( $config['showTrailers'] ) : ?>
 		<div class="clearLeft secondaryButtons">
-			<a href="http://www.hd-trailers.net/" target="_blank" class="actionButton small icon iconTrailer"><span>Online Trailer Downloads</span></a>
+			<a href="http://www.hd-trailers.net/" target="_blank" class="actionButton small icon iconTrailer"><span>Watch Trailers</span></a>
 		</div>
 		<?php endif; ?>
 
