@@ -46,8 +46,8 @@
 		# Wifi
 		# WifiName is also used for page title
 		"showWifi" => true,
-		"wifiName" => "Shiznit Central",
-		"wifiPassword" => "CCE11A3403"
+		"wifiName" => "Home Network",
+		"wifiPassword" => "abcd1234"
 
 	);
 
