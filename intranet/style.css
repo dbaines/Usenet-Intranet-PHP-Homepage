@@ -1,0 +1,124 @@
+/* =========================================================
+
+	DESIGN
+
+========================================================= */
+
+html {background: #cbc9c9 url("images/body-bg.gif") top left repeat; color: #3a3e41; text-shadow: 0 1px rgba(255,255,255,0.6);}
+body {width: 940px; margin: 0 auto; text-align: left;}
+h1, h2, h3 {padding: 0; margin: 0; font-weight: normal;}
+h1 {padding: 80px 0 20px; font-size: 305%;}
+h2 {padding-bottom: 10px;}
+
+.clearLeft {clear: left;}
+
+/* Butons */
+.actionButton {display: block; float: left; border: 1px solid #9e9e9e; background: transparent; margin-right: 35px; text-indent: -999px; outline: none; border-radius: 6px; box-shadow: 0 1px 0 rgba(255,255,255,.7), inset 0 1px rgba(255,255,255,.7); 
+		background-image: -webkit-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 100%);
+		background-image: -moz-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 100%);
+		background-image: -o-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 100%);
+		background-image: linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 100%);
+		-webkit-transition: all .2s ease-in-out;
+		-moz-transition: all .2s ease-in-out;
+		-o-transition: all .2s ease-in-out;
+		transition: all .2s ease-in-out;
+	}
+	.actionButton:hover {
+		background-image: -webkit-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,0.1) 100%);
+		background-image: -moz-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,0.1) 100%);
+		background-image: linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,0.1) 100%);
+	}
+	.actionButton:focus,
+	.actionButton:active {
+		box-shadow: 0 1px 0 rgba(255,255,255,.7), 
+		             inset 0 1px rgba(255,255,255,.7),
+		             0 0 15px rgba(138,197,233,1);
+	}
+
+	.actionButton.big span {width: 206px; height: 97px; display: block; background-position: center; background-repeat: no-repeat;}
+	.actionButton.sickbeard span {background-image: url("images/sickbeard.png");}
+	.actionButton.couchpotato span {background-image: url("images/couch.png"); background-position: center bottom;}
+	.actionButton.headphones span {background-image: url("images/headphones.png");}
+	.actionButton.sabnzb span {background-image: url("images/sab.png");}
+
+
+/* =========================================================
+
+	SICKBEARD LIST
+
+========================================================= */
+.sickbeardShows {float: right; width: 205px; padding-bottom: 10px; margin-top: -35px;}
+	.sickbeardShows h3 {padding-bottom: 10px;}
+	.sickbeardShows ul,
+	.sickbeardShows li {list-style: none; padding: 0; margin: 0;}
+	.sickbeardShows li {padding: 10px 0; border-top: 1px solid rgba(0,0,0,0.1); position: relative;}
+	.sickbeardShows .showep {font-size: 80%;}
+
+	.showPopup {position: absolute; width: 120px; left: -146px; top: -125%; background: rgba(0,0,0,0.9); display: none; padding: 5px; box-shadow: 0 0 20px rgba(0,0,0,0.2);}
+		.showPopup:after {content: ""; width: 0; height: 0; border-top: 10px solid transparent; border-bottom: 10px solid transparent; border-left: 10px solid rgba(0,0,0,0.9); position: absolute; margin-top: -5px; top: 50%; right: -10px; display: block;}
+		.showPopupBlurb {color: #fff; text-shadow: none; font-size: 85%; padding: 10px; display: block;}
+	.sickbeardShows li:hover .showPopup {display: block;}
+	.showposter {width: 120px; float: left; margin-right: 10px;}
+
+/* =========================================================
+
+	SABNZBD DETAILS
+
+========================================================= */
+.sabDownload {float: left; margin-top: 30px; width: 450px;}
+.actionButton.sabnzb {clear: left; margin-top: 30px;}
+
+.currentdl {display: block; color: #535353;}
+.stats {color: #888; font-size: 85%; padding-top: 5px; display: block;}
+
+progress {background-color: #bfbfbf !important; height: 4px; width: 100%; box-shadow: 0 1px 0 rgba(255,255,255,0.5); border: 0;}
+	progress::-webkit-progress-value {background: #4ba0d5;}
+	progress::-webkit-progress-bar {background: #bfbfbf;}
+	progress::-moz-progress-bar {background: #4ba0d5;}
+
+/* =========================================================
+
+	WIFI
+
+========================================================= */
+.wifi {padding: 20px 20px 20px 80px; color: #235b7e; border-radius: 10px; clear: left; width: 597px; margin-top: 40px; background: #8ac5e9 url("images/wifi.png") 15px center no-repeat; background-color: rgba(138,197,233,.4);}
+	.wifi h2 {padding-bottom: 3px;}
+	.wifi big {font-size: 120%;}
+
+/* =========================================================
+
+	CUSTOM FONTS
+
+========================================================= */
+@font-face {
+    font-family: 'TitilliumText22LRegular';
+    src: url('fonts/TitilliumText22L003-webfont.eot?') format('eot'),
+         url('fonts/TitilliumText22L003-webfont.woff') format('woff'),
+         url('fonts/TitilliumText22L003-webfont.ttf') format('truetype'),
+         url('fonts/TitilliumText22L003-webfont.svg#webfontiXtJn0Qu') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'TitilliumText22LBold';
+    src: url('fonts/TitilliumText22L005-webfont.eot?') format('eot'),
+         url('fonts/TitilliumText22L005-webfont.woff') format('woff'),
+         url('fonts/TitilliumText22L005-webfont.ttf') format('truetype'),
+         url('fonts/TitilliumText22L005-webfont.svg#webfontZL0yA7s8') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'TitilliumText22LXBold';
+    src: url('fonts/TitilliumText22L006-webfont.eot?') format('eot'),
+         url('fonts/TitilliumText22L006-webfont.woff') format('woff'),
+         url('fonts/TitilliumText22L006-webfont.ttf') format('truetype'),
+         url('fonts/TitilliumText22L006-webfont.svg#webfontDGZcY3kb') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {font-family: TitilliumText22LRegular, arial, sans-serif;}
+h1, h2, h3, .wifi {font-family: TitilliumText22LBold, arial, sans-serif;}
