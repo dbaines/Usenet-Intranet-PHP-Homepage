@@ -5,12 +5,15 @@
 ========================================================= */
 
 html {background: #cbc9c9 url("images/body-bg.gif") top left repeat; color: #3a3e41; text-shadow: 0 1px rgba(255,255,255,0.6);}
-body {width: 940px; margin: 0 auto; text-align: left;}
+body {width: 940px; margin: 0 auto; text-align: left; padding-bottom: 20px;}
 h1, h2, h3 {padding: 0; margin: 0; font-weight: normal;}
 h1 {padding: 80px 0 20px; font-size: 305%;}
 h2 {padding-bottom: 10px;}
 
 .clearLeft {clear: left;}
+.clearfix:before, .clearfix:after { content: ""; display: table; }
+.clearfix:after { clear: both; }
+.clearfix { *zoom: 1; }
 
 /* Butons */
 .actionButton {display: block; float: left; border: 1px solid #9e9e9e; border-color: rgba(0,0,0,0.15); background: transparent; margin-right: 35px; outline: none; border-radius: 6px; box-shadow: 0 1px 0 rgba(255,255,255,.7), inset 0 1px rgba(255,255,255,.7); 
@@ -93,6 +96,9 @@ progress {background-color: #bfbfbf !important; height: 4px; width: 100%; box-sh
 
 ========================================================= */
 .actionButton.utorrent {clear: left; margin-top: 30px;}
+	.torrent {padding-top: 5px;}
+	.torrent:first-child {padding-top: 0;}
+	.torrent progress {position: relative; top: -5px;}
 
 /* =========================================================
 

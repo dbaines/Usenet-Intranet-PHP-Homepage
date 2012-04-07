@@ -1,4 +1,6 @@
 <?php include('intranet/serverconfig.php'); ?>
+<?php include('intranet/lib/functions.php'); ?>
+<?php if($config['uTorrent']) {include('intranet/lib/utorrent_php_api.php');} ?>
 <?php 
 
 	## Setting up URL structures
@@ -147,39 +149,66 @@
 
 		<?php ## uTorrent Web GUI ?>
 		<?php if( $config['uTorrent'] ) : ?>
-		<a href="http://<?= $config['uTorrentURL']; ?>:<?= $config['uTorrentPort']; ?>/gui/" title="uTorrent" class="actionButton big utorrent"><span>uTorrent</span></a>
+		<section class="clearfix">
+			<a href="http://<?= $config['uTorrentURL']; ?>:<?= $config['uTorrentPort']; ?>/gui/" title="uTorrent" class="actionButton big utorrent"><span>uTorrent</span></a>
 
-		<div class="sabDownload">
-			<h2>Currently Downloading</h2>
-			<em>Coming Soon</em>
-			<?php
+			<div class="sabDownload">
+				<h2>Currently Downloading</h2>
+				<?php
 
-				/*
-				$torrentData = file_get_contents($config['uTorrentURL'].":".$config['uTorrentPort']."/gui/?list=1&token=".$config['uTorrentHash']);
-				$torrentJSON = json_decode($torrentData);
+        // Create new uTorrent Connection
+        $utorrent = new uTorrentAPI();
+        $torrentAPI = $utorrent->get_torrent_list();
 
-				//$url = "http://192.168.1.1:8089/gui/?list=1&token=0l-ws0vnlN3D7bW5ZLHJFDCTLr4tx-BCyChHfsKnR0D6eGBEA7ed_lf0fk8AAAAA";
-				$url = "http://192.168.1.1:8089/gui/token.html";
-				header('WWW-Authenticate: Basic dGVzdDp0ZXN0');
-				print_r(get_headers($url));
-				*/
+        // Create some variables
+        $torrents = $torrentAPI['torrents'];
+        $torrentsComplete = array();
+        $torrentsDownloading = array();
 
-			?>
-		</div>
+        // Run through each torrent and insert in to appropriate variables
+        foreach($torrents as $torrent) {
+            if($torrent[4] == "1000") {
+                array_push($torrentsComplete, $torrent);
+            } else {
+                array_push($torrentsDownloading, $torrent);
+            }
+        }
+
+        // Cut off array at 5 each
+        $torrentsDownloading = array_slice($torrentsDownloading,0,5);
+
+        // List all pending downloads
+        foreach($torrentsDownloading as $torrentDone) {
+            $name = $torrentDone[2];
+            $sizeFull = $torrentDone[3];
+            $sizeDone = $torrentDone[5];
+            $percentage = $torrentDone[4];
+            $speed = $torrentDone[9];
+
+            echo "<div class='torrent'>";
+            echo $name;
+            echo "<progress value='".$sizeDone."' max='".$sizeFull."'></progress>";
+            echo "<span class='stats'>";
+            echo ByteSize($sizeDone)." / ".ByteSize($sizeFull)." (".$percentage."%)";
+            echo " @ " .ByteSize($speed);
+            echo "</span>";
+            echo "</div>";
+        }
+				?>
+			</div>
+		</section>
 		<?php endif; ?>
-
-		<div class="clearLeft"></div>
 
 		<?php ## Wifi ?>
 		<?php if( $config['showWifi'] ) : ?>
-			<div class="wifi">
+			<div class="wifi clearfix">
 				<h2>Wifi Password for <?= $config['wifiName'] ?></h2>
 				<big><?= $config['wifiPassword']; ?></big>
 			</div>
 		<?php endif; ?>
 
 		<?php if( $config['showTrailers'] ) : ?>
-		<div class="clearLeft secondaryButtons">
+		<div class="secondaryButtons clearfix">
 			<a href="http://www.hd-trailers.net/" target="_blank" class="actionButton small icon iconTrailer"><span>Watch Trailers</span></a>
 		</div>
 		<?php endif; ?>
