@@ -1,15 +1,22 @@
 <?php
 class uTorrentAPI
 {
-    public $conf_user = "test";
-    public $conf_pass = "test";
-    public $conf_host = "localhost:8089";
+    public $conf_user = "";
+    public $conf_pass = "";
+    public $conf_host = "";
     
     public $token = NULL;
     public $crl = NULL;
     
-    function __construct()
+    function uTorrentAPI($config) {
+        
+    }
+
+    function __construct($config)
     {
+        $this->conf_host = $config['uTorrentURL'].":".$config['uTorrentPort'];
+        $this->conf_user = $config['uTorrentUsername'];
+        $this->conf_pass = $config['uTorrentPassword'];
         $this->crl = curl_init();
         $this->token = $this->get_token ();
     }

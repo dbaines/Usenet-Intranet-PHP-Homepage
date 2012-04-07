@@ -96,7 +96,7 @@ progress {background-color: #bfbfbf !important; height: 4px; width: 100%; box-sh
 
 ========================================================= */
 .actionButton.utorrent {clear: left; margin-top: 30px;}
-	.torrent {padding-top: 5px;}
+	.torrent {padding-top: 8px;}
 	.torrent:first-child {padding-top: 0;}
 	.torrent progress {position: relative; top: -5px;}
 

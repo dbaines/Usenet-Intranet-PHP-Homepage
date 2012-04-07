@@ -156,44 +156,44 @@
 				<h2>Currently Downloading</h2>
 				<?php
 
-        // Create new uTorrent Connection
-        $utorrent = new uTorrentAPI();
-        $torrentAPI = $utorrent->get_torrent_list();
+			        $utorrent = new uTorrentAPI($config);
 
-        // Create some variables
-        $torrents = $torrentAPI['torrents'];
-        $torrentsComplete = array();
-        $torrentsDownloading = array();
+			        // Create some variables
+			        $torrentAPI = $utorrent->get_torrent_list();
+			        $torrents = $torrentAPI['torrents'];
+			        $torrentsComplete = array();
+			        $torrentsDownloading = array();
 
-        // Run through each torrent and insert in to appropriate variables
-        foreach($torrents as $torrent) {
-            if($torrent[4] == "1000") {
-                array_push($torrentsComplete, $torrent);
-            } else {
-                array_push($torrentsDownloading, $torrent);
-            }
-        }
+			        // Run through each torrent and insert in to appropriate variables
+			        foreach($torrents as $torrent) {
+			            if($torrent[4] == "1000") {
+			                array_push($torrentsComplete, $torrent);
+			            } else {
+			                array_push($torrentsDownloading, $torrent);
+			            }
+			        }
 
-        // Cut off array at 5 each
-        $torrentsDownloading = array_slice($torrentsDownloading,0,5);
+			        // Cut off array at 5 each
+			        $torrentsDownloading = array_slice($torrentsDownloading,0,5);
 
-        // List all pending downloads
-        foreach($torrentsDownloading as $torrentDone) {
-            $name = $torrentDone[2];
-            $sizeFull = $torrentDone[3];
-            $sizeDone = $torrentDone[5];
-            $percentage = $torrentDone[4];
-            $speed = $torrentDone[9];
+			        // List all pending downloads
+			        foreach($torrentsDownloading as $torrentDone) {
+			            $name = $torrentDone[2];
+			            $sizeFull = $torrentDone[3];
+			            $sizeDone = $torrentDone[5];
+			            $percentage = $torrentDone[4]/10;
+			            $speed = $torrentDone[9];
 
-            echo "<div class='torrent'>";
-            echo $name;
-            echo "<progress value='".$sizeDone."' max='".$sizeFull."'></progress>";
-            echo "<span class='stats'>";
-            echo ByteSize($sizeDone)." / ".ByteSize($sizeFull)." (".$percentage."%)";
-            echo " @ " .ByteSize($speed);
-            echo "</span>";
-            echo "</div>";
-        }
+			            echo "<div class='torrent'>";
+			            echo $name;
+			            echo "<progress value='".$sizeDone."' max='".$sizeFull."'></progress>";
+			            echo "<span class='stats'>";
+			            echo ByteSize($sizeDone)." / ".ByteSize($sizeFull)." (".$percentage."%)";
+			            echo " @ " .ByteSize($speed);
+			            echo "</span>";
+			            echo "</div>";
+			        }
+			        
 				?>
 			</div>
 		</section>

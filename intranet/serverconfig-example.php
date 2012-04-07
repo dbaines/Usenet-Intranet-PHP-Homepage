@@ -10,19 +10,28 @@
 		"uTorrent" => true,
 
 		# URLs and Ports
-		"sickbeardURL" => "http://192.168.1.1",
+		"sickbeardURL" => "192.168.1.1",
 		"sickbeardPort" => "8081",
 		"sickbeardAPI" => "",
-		"sabnzbdURL" => "http://192.168.1.1",
+		"sabnzbdURL" => "192.168.1.1",
 		"sabnzbdPort" => "8080",
 		"sabnzbdAPI" => "",
-		"couchpotatoURL" => "http://192.168.1.1",
+		"couchpotatoURL" => "192.168.1.1",
 		"couchpotatoPort" => "5000",
-		"headphonesURL" => "http://192.168.1.1",
+		"headphonesURL" => "192.168.1.1",
 		"headphonesPort" => "8181",
-		"uTorrentURL" => "http://192.168.1.1",
+		"uTorrentURL" => "192.168.1.1",
 		"uTorrentPort" => "8089",
-		"uTorrentToken" => "0l-ws0vnlN3D7bW5ZLHJFDCTLr4tx-BCyChHfsKnR0D6eGBEA7ed_lf0fk8AAAAA",
+
+		# Usernames and Passwords
+		# If not using usernames or passwords, leave these to false.
+		# ie. "sickbeardUsername" => false,
+		"sickbeardUsername" => false,
+		"sickbeardPassword" => false,
+		"sabnzbdUsername" => "admin",
+		"sabnzbdPassword" => "admin",
+		"uTorrentUsername" => "admin",
+		"uTorrentPassword" => "admin",
 
 		# Sickbeard - Missed or Coming?
 		# Australia, for example, is almost an entire day ahead of America and so American TV shows 
