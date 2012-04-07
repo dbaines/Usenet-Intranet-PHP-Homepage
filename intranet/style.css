@@ -35,7 +35,7 @@ h2 {padding-bottom: 10px;}
 		             0 0 15px rgba(138,197,233,1);
 	}
 
-	.actionButton.big {text-indent: -999px;}
+	.actionButton.big {text-indent: -99999px;}
 	.actionButton.small {padding: 15px; text-decoration: none; color: #222;}
 	.actionButton.big span {width: 206px; height: 97px; display: block; background-position: center; background-repeat: no-repeat;}
 	.actionButton.sickbeard span {background-image: url("images/sickbeard.png");}

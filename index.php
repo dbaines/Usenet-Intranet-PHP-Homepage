@@ -1,4 +1,19 @@
 <?php include('intranet/serverconfig.php'); ?>
+<?php 
+
+	## Setting up URL structures
+	if($config['sickbeardUsername']) {
+		$sickbeardURL = "http://".$config['sickbeardUsername'].":".$config['sickbeardPassword']."@".$config['sickbeardURL'].":".$config['sickbeardPort'];
+	} else {
+		$sickbeardURL = "http://".$config['sickbeardURL'].":".$config['sickbeardPort'];
+	}
+	if($config['sabnzbdUsername']) {
+		$sabURL = "http://".$config['sabnzbdUsername'].":".$config['sabnzbdPassword']."@".$config['sabnzbdURL'].":".$config['sabnzbdPort'];
+	} else {
+		$sabURL = "http://".$config['sabnzbdURL'].":".$config['sabnzbdPort'];
+	}
+
+?>
 <!doctype html>
 <html>
 	<head>
@@ -22,7 +37,7 @@
 		<div class="sickbeardShows">
 			<h3>TV Today</h3>
 			<?php
-				$sbJSON = file_get_contents($config['sickbeardURL'].":".$config['sickbeardPort']."/api/".$config['sickbeardAPI']."/?cmd=future&sort=date&type=".$sbType);
+				$sbJSON = file_get_contents($sickbeardURL."/api/".$config['sickbeardAPI']."/?cmd=future&sort=date&type=".$sbType);
 				$sbShows = json_decode($sbJSON);
 
 				echo "<ul class='comingShows'>";
@@ -39,7 +54,7 @@
 						# Sickbeard Popups
 						if($config ['sickPopups']) :
 						echo "<span class='showPopup'>";
-						echo "<img src='".$config['sickbeardURL'].":".$config['sickbeardPort']."/showPoster/?show=".$episode->{'tvdbid'}."&which=poster' class='showposter' />";
+						echo "<img src='".$sickbeardURL."/showPoster/?show=".$episode->{'tvdbid'}."&which=poster' class='showposter' />";
 						echo "</span>";
 						endif;
 
@@ -51,7 +66,7 @@
 				}
 				echo "</ul>";
 
-				$sbJSONdone = file_get_contents($config['sickbeardURL'].":".$config['sickbeardPort']."/api/".$config['sickbeardAPI']."/?cmd=history&limit=15");
+				$sbJSONdone = file_get_contents($sickbeardURL."/api/".$config['sickbeardAPI']."/?cmd=history&limit=15");
 				$sbShowsdone = json_decode($sbJSONdone);
 				$todaysDate = date('Y-m-d');
 
@@ -68,7 +83,7 @@
 					# Sickbeard Popups
 					if($config ['sickPopups']) :
 					echo "<span class='showPopup'>";
-					echo "<img src='".$config['sickbeardURL'].":".$config['sickbeardPort']."/showPoster/?show=".$episode->{'tvdbid'}."&which=poster' class='showposter' />";
+					echo "<img src='".$sickbeardURL."/showPoster/?show=".$episode->{'tvdbid'}."&which=poster' class='showposter' />";
 					echo "</span>";
 					endif;
 
@@ -85,24 +100,24 @@
 
 		<?php ## Action Buttons ?>
 		<?php if( $config['sickbeard'] ) : ?>
-		<a href="<?= $config['sickbeardURL']; ?>:<?= $config['sickbeardPort']; ?>" title="SickBeard" class="actionButton big sickbeard"><span>SickBeard</span></a>
+		<a href="<?= $sickbeardURL; ?>" title="SickBeard" class="actionButton big sickbeard"><span>SickBeard</span></a>
 		<?php endif; ?>
 		<?php if( $config['couchpotato'] ) : ?>
-		<a href="<?= $config['couchpotatoURL']; ?>:<?= $config['couchpotatoPort']; ?>" title="CouchPoato" class="actionButton big couchpotato"><span>CouchPotato</span></a>
+		<a href="http://<?= $config['couchpotatoURL']; ?>:<?= $config['couchpotatoPort']; ?>" title="CouchPoato" class="actionButton big couchpotato"><span>CouchPotato</span></a>
 		<?php endif; ?>
 		<?php if( $config['headphones'] ) : ?>
-		<a href="<?= $config['headphonesURL']; ?>:<?= $config['headphonesPort']; ?>" title="Headphones" class="actionButton big headphones"><span>Headphones</span></a>
+		<a href="http://<?= $config['headphonesURL']; ?>:<?= $config['headphonesPort']; ?>" title="Headphones" class="actionButton big headphones"><span>Headphones</span></a>
 		<?php endif; ?>
 
 		<?php ## SABnzbd ?>
 		<?php if( $config['sabnzbd'] ) : ?>
-		<a href="<?= $config['sabnzbdURL']; ?>:<?= $config['sabnzbdPort']; ?>" title="SABnzbd" class="actionButton big sabnzb"><span>SABnzbd</span></a>
+		<a href="<?= $sabURL; ?>" title="SABnzbd" class="actionButton big sabnzb"><span>SABnzbd</span></a>
 
 		<div class="sabDownload">
 			<h2>Currently Downloading</h2>
 			<?php
 
-				$data = simplexml_load_file($config['sabnzbdURL'].":".$config['sabnzbdPort']."/sabnzbd/api?mode=qstatus&output=xml&apikey=".$config['sabnzbdAPI']);
+				$data = simplexml_load_file($sabURL."/sabnzbd/api?mode=qstatus&output=xml&apikey=".$config['sabnzbdAPI']);
 				$filename = $data->jobs[0]->job->filename;
 				$mbFull = $data->jobs[0]->job->mb;
 				$mbLeft = $data->jobs[0]->job->mbleft;
@@ -132,19 +147,22 @@
 
 		<?php ## uTorrent Web GUI ?>
 		<?php if( $config['uTorrent'] ) : ?>
-		<a href="<?= $config['uTorrentURL']; ?>:<?= $config['uTorrentPort']; ?>/gui/" title="uTorrent" class="actionButton big utorrent"><span>uTorrent</span></a>
+		<a href="http://<?= $config['uTorrentURL']; ?>:<?= $config['uTorrentPort']; ?>/gui/" title="uTorrent" class="actionButton big utorrent"><span>uTorrent</span></a>
 
 		<div class="sabDownload">
 			<h2>Currently Downloading</h2>
+			<em>Coming Soon</em>
 			<?php
 
-				//$torrentData = file_get_contents($config['uTorrentURL'].":".$config['uTorrentPort']."/gui/?list=1&token=".$config['uTorrentHash']);
-				//$torrentJSON = json_decode($torrentData);
+				/*
+				$torrentData = file_get_contents($config['uTorrentURL'].":".$config['uTorrentPort']."/gui/?list=1&token=".$config['uTorrentHash']);
+				$torrentJSON = json_decode($torrentData);
 
 				//$url = "http://192.168.1.1:8089/gui/?list=1&token=0l-ws0vnlN3D7bW5ZLHJFDCTLr4tx-BCyChHfsKnR0D6eGBEA7ed_lf0fk8AAAAA";
-				//$url = "http://192.168.1.1:8089/gui/token.html";
-				//header('WWW-Authenticate: Basic dGVzdDp0ZXN0');
-				//print_r(get_headers($url));
+				$url = "http://192.168.1.1:8089/gui/token.html";
+				header('WWW-Authenticate: Basic dGVzdDp0ZXN0');
+				print_r(get_headers($url));
+				*/
 
 			?>
 		</div>

@@ -20,4 +20,4 @@ A simple little one-page Intranet homepage I created for my home server with the
 Ideally this would go on the root of your web server, which is why the intranet resources are in a folder named intranet. The resources are all relative so you can move it in to a subfolder if you like.
 
 To configure the page you will need to open the intranet folder and rename serverconfig-example.php to serverconfig.php
-Open the config file and make the appropriate changes to the IPs, Ports and API Keys.
+Open the config file and make the appropriate changes to the IPs, Ports, API Keys, Usernames and Passwords.
