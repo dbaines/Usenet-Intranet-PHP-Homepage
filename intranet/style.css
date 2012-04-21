@@ -39,7 +39,7 @@ h2 {padding-bottom: 10px;}
 	}
 
 	.actionButton.big {text-indent: -99999px;}
-	.actionButton.small {padding: 15px; text-decoration: none; color: #222;}
+	.actionButton.small {padding: 15px; text-decoration: none; color: #222; margin: 0 22px 20px 0;}
 	.actionButton.big span {width: 206px; height: 97px; display: block; background-position: center; background-repeat: no-repeat;}
 	.actionButton.sickbeard span {background-image: url("images/sickbeard.png");}
 	.actionButton.couchpotato span {background-image: url("images/couch.png"); background-position: center bottom;}
