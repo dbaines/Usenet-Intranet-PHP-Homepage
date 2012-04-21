@@ -66,15 +66,15 @@ h2 {padding-bottom: 10px;}
 	.sickbeardShows li {padding: 10px 0; border-top: 1px solid rgba(0,0,0,0.1); position: relative;}
 	.sickbeardShows .showep {font-size: 80%;}
 
-	.showPopup {position: absolute; width: 120px; left: -146px; top: -125%; background: rgba(0,0,0,0.9); display: none; padding: 5px; box-shadow: 0 0 20px rgba(0,0,0,0.2); z-index: 5;}
+	.showPopup {position: absolute; width: auto; left: -146px; top: -72px; background: rgba(0,0,0,0.9); display: none; box-shadow: 0 0 20px rgba(0,0,0,0.2); z-index: 5;}
 		.showPopup:after {content: ""; width: 0; height: 0; border-top: 10px solid transparent; border-bottom: 10px solid transparent; border-left: 10px solid rgba(0,0,0,0.9); position: absolute; margin-top: -5px; top: 50%; right: -10px; display: block;}
 		.showPopupBlurb {color: #fff; text-shadow: none; font-size: 85%; padding: 10px; display: block;}
 	.sickbeardShows li:hover .showPopup {display: block;}
-	.showposter {width: 120px; float: left; margin-right: 10px;}
+	.showposter {height: 180px; padding: 5px; float: left;}
 
 	.snatchedShows li {background: url("images/tick.png") left no-repeat; padding-left: 25px;}
 		.snatchedShows strong {color: #346d90; font-weight: normal;}
-		.snatchedShows .showPopup {top: -200%;}
+		.snatchedShows .showPopup {top: -80px;}
 
 /* =========================================================
 

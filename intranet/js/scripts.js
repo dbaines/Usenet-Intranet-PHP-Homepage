@@ -13,4 +13,14 @@ $(function() {
 		}
 	});
 
+	// Fix for popups on multi-line shows
+	$(".sickbeardShows li").each(function() {
+		// Get half of the height of this li
+		var liHeight = $(this).height() / 2,
+			// 90 is half of the height of the poseter
+			newHeight = 90 - liHeight;
+		// Set top postion based on that
+		$(this).find(".showPopup").css("top",-newHeight);
+	});
+
 });
