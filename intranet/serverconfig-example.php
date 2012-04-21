@@ -39,7 +39,7 @@
 		"transmissionPassword" => false,
 
 		# Sickbeard - Missed or Coming?
-		# Australia, for example, is almost an entire day ahead of America and so American TV shows 
+		# Australia, for example, is almost an entire day ahead of America so American TV shows 
 		# air the day after they say they're going to air, so instead of "coming shows", we use "missed shows"
 		# to indicate what's coming out today. 
 		# Set to true for "missed", false for "coming"
@@ -55,7 +55,19 @@
 		# WifiName is also used for page title
 		"showWifi" => true,
 		"wifiName" => "Home Network",
-		"wifiPassword" => "abcd1234"
+		"wifiPassword" => "abcd1234",
+
+		# Bookmarks
+		"bookmarks" => array(
+			0 => array(
+				"label" => "NZBMatrix",
+				"url" => "http://www.nzbmatrix.com",
+			),
+			1 => array(
+				"label" => "Google",
+				"url" => "http://www.google.com.au",
+			),
+		),
 
 	);
 ?>

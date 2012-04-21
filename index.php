@@ -261,11 +261,24 @@ $rpc->url = $transmissionURL."/transmission/rpc";
 			</div>
 		<?php endif; ?>
 
-		<?php if( $config['showTrailers'] ) : ?>
 		<div class="secondaryButtons clearfix">
+
+			<?php if( $config['showTrailers'] ) : ?>
 			<a href="http://www.hd-trailers.net/" target="_blank" class="actionButton small icon iconTrailer"><span>Watch Trailers</span></a>
+			<?php endif; ?>
+
+			<?php if ( !empty($config['bookmarks']) ) {
+				foreach ($config['bookmarks'] as $bookmark) {
+					
+					//var_dump($bookmark);
+					// echo $bookmark['label'];
+					echo "<a href='".$bookmark['url']."' target='_blank' class='actionButton small icon'><span style='background-image: url(".$bookmark['url']."/favicon.ico);'>".$bookmark['label']."</span></a>";
+
+				}
+			}
+			?>
+
 		</div>
-		<?php endif; ?>
 
 		<?php ## Ending check for all-disabled ?>
 		<?php endif; ?>
