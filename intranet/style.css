@@ -51,6 +51,8 @@ h2 {padding-bottom: 10px;}
 	.actionButton.icon span {background-position: 0 50%; background-repeat: no-repeat; padding-left: 25px;}
 	.actionButton.iconTrailer span {background-image: url("images/trailers.png");}
 
+	.actionButton.sabnzb,
+	.actionButton.utorrent {clear: left; margin-top: 30px;}
 
 /* =========================================================
 
@@ -64,7 +66,7 @@ h2 {padding-bottom: 10px;}
 	.sickbeardShows li {padding: 10px 0; border-top: 1px solid rgba(0,0,0,0.1); position: relative;}
 	.sickbeardShows .showep {font-size: 80%;}
 
-	.showPopup {position: absolute; width: 120px; left: -146px; top: -125%; background: rgba(0,0,0,0.9); display: none; padding: 5px; box-shadow: 0 0 20px rgba(0,0,0,0.2);}
+	.showPopup {position: absolute; width: 120px; left: -146px; top: -125%; background: rgba(0,0,0,0.9); display: none; padding: 5px; box-shadow: 0 0 20px rgba(0,0,0,0.2); z-index: 5;}
 		.showPopup:after {content: ""; width: 0; height: 0; border-top: 10px solid transparent; border-bottom: 10px solid transparent; border-left: 10px solid rgba(0,0,0,0.9); position: absolute; margin-top: -5px; top: 50%; right: -10px; display: block;}
 		.showPopupBlurb {color: #fff; text-shadow: none; font-size: 85%; padding: 10px; display: block;}
 	.sickbeardShows li:hover .showPopup {display: block;}
@@ -76,11 +78,14 @@ h2 {padding-bottom: 10px;}
 
 /* =========================================================
 
-	SABNZBD DETAILS
+	DOWNLOAD DETAILS
 
 ========================================================= */
-.sabDownload {float: left; margin-top: 30px; width: 450px;}
-.actionButton.sabnzb {clear: left; margin-top: 30px;}
+.downloadFrame {float: left; margin: 30px 0 20px; width: 450px; overflow-x: hidden;}
+.downloadFrameSlide {width: 900px;}
+
+.downloadPage {float: left; width: 450px; position: relative;}
+	.downloadPage .go {position: absolute; top: 0; right: 0; padding: 5px 9px; margin-right: 0;}
 
 .currentdl {display: block; color: #535353;}
 .stats {color: #888; font-size: 85%; padding-top: 5px; display: block;}
@@ -90,12 +95,17 @@ progress {background-color: #bfbfbf !important; height: 4px; width: 100%; box-sh
 	progress::-webkit-progress-bar {background: #bfbfbf;}
 	progress::-moz-progress-bar {background: #4ba0d5;}
 
+.downloadPage ul,
+.downloadPage li {list-style: none; padding: 0; margin: 0;}
+.downloadPage ul {padding-bottom: 5px;}
+.downloadPage li {font-size: 85%;}
+
 /* =========================================================
 
 	UTORRENT DETAILS
 
 ========================================================= */
-.actionButton.utorrent {clear: left; margin-top: 30px;}
+
 	.torrent {padding-top: 8px;}
 	.torrent:first-child {padding-top: 0;}
 	.torrent progress {position: relative; top: -5px;}

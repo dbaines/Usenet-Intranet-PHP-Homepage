@@ -1,6 +1,7 @@
 <?php include('intranet/serverconfig.php'); ?>
 <?php include('intranet/lib/functions.php'); ?>
 <?php if($config['uTorrent']) {include('intranet/lib/utorrent_php_api.php');} ?>
+<?php if($config['transmission']) {include('intranet/lib/transmissionrpc.class.php');} ?>
 <?php 
 
 	## Setting up URL structures
@@ -9,10 +10,17 @@
 	} else {
 		$sickbeardURL = "http://".$config['sickbeardURL'].":".$config['sickbeardPort'];
 	}
+
 	if($config['sabnzbdUsername']) {
 		$sabURL = "http://".$config['sabnzbdUsername'].":".$config['sabnzbdPassword']."@".$config['sabnzbdURL'].":".$config['sabnzbdPort'];
 	} else {
 		$sabURL = "http://".$config['sabnzbdURL'].":".$config['sabnzbdPort'];
+	}
+
+	if($config['transmissionUsername']) {
+		$transmissionURL = "http://".$config['transmissionURL'].":".$config['transmissionPort']."@".$config['transmissionUsername'].":".$config['transmissionPassword'];
+	} else {
+		$transmissionURL = "http://".$config['transmissionURL'].":".$config['transmissionPort'];
 	}
 
 ?>
@@ -68,7 +76,7 @@
 				}
 				echo "</ul>";
 
-				$sbJSONdone = file_get_contents($sickbeardURL."/api/".$config['sickbeardAPI']."/?cmd=history&limit=15");
+				$sbJSONdone = file_get_contents($sickbeardURL."/api/".$config['sickbeardAPI']."/?cmd=history&limit=50");
 				$sbShowsdone = json_decode($sbJSONdone);
 				$todaysDate = date('Y-m-d');
 
@@ -78,7 +86,7 @@
 				# Run through each show
 				foreach($sbShowsdone->{'data'} as $episode) {
 
-					if (substr($episode->date,0,10) == $todaysDate) :
+					if (substr($episode->date,0,10) == $todaysDate && $episode->status == "Snatched") :
 
 					echo "<li>";
 
@@ -115,93 +123,139 @@
 		<?php if( $config['sabnzbd'] ) : ?>
 		<a href="<?= $sabURL; ?>" title="SABnzbd" class="actionButton big sabnzb"><span>SABnzbd</span></a>
 
-		<div class="sabDownload">
-			<h2>Currently Downloading</h2>
-			<?php
+		<div class="downloadFrame clearfix"><div class="downloadFrameSlide clearfix">
+			<div class="downloadPage downloadPageCurrent">
+				<h2>Currently Downloading</h2>
+				<a href="#" class="go actionButton small">&gt;</a>
+				<?php
 
-				$data = simplexml_load_file($sabURL."/sabnzbd/api?mode=qstatus&output=xml&apikey=".$config['sabnzbdAPI']);
-				$filename = $data->jobs[0]->job->filename;
-				$mbFull = $data->jobs[0]->job->mb;
-				$mbLeft = $data->jobs[0]->job->mbleft;
-				$mbDone = $mbFull - $mbLeft;
+					$data = simplexml_load_file($sabURL."/sabnzbd/api?mode=qstatus&output=xml&apikey=".$config['sabnzbdAPI']);
+					$filename = $data->jobs[0]->job->filename;
+					$mbFull = $data->jobs[0]->job->mb;
+					$mbLeft = $data->jobs[0]->job->mbleft;
+					$mbDone = $mbFull - $mbLeft;
 
-				if($filename) {
+					if($filename) {
 
-					$mbFullNoRound = explode(".",$mbFull);
-					$mbPercent = $mbDone / $mbFullNoRound[0] * 100;
-					$mbPercentPretty = explode(".",$mbPercent);
+						$mbFullNoRound = explode(".",$mbFull);
+						$mbPercent = $mbDone / $mbFullNoRound[0] * 100;
+						$mbPercentPretty = explode(".",$mbPercent);
 
-					echo "<span class='currentdl'>";
-					if ($data->paused == "True") {echo "PAUSED: ";}
-					echo $filename."</span>";
-					echo "<progress value='".$mbDone."' max='".$mbFull."'></progress>";
-					echo "<span class='stats'>".$mbDone."mb / ".$mbFullNoRound[0]."mb (".$mbPercentPretty[0]."%) @ ". $data->speed ."</span>";
+						echo "<span class='currentdl'>";
+						if ($data->paused == "True") {echo "PAUSED: ";}
+						echo $filename."</span>";
+						echo "<progress value='".$mbDone."' max='".$mbFull."'></progress>";
+						echo "<span class='stats'>".$mbDone."mb / ".$mbFullNoRound[0]."mb (".$mbPercentPretty[0]."%) @ ". $data->speed ."</span>";
 
-				} else {
-					
-					echo "<em class='currentdl'>No current downloads</em>";
+					} else {
+						
+						echo "<em class='currentdl'>No current downloads</em>";
 
-				}
-			?>
+					}
+				?>
 
-		</div>
-		<?php endif; ?>
+			</div>
+			<div class="downloadPage downloadPageHistory">
+				<h2>Recently Finished</h2>
+				<a href="#" class="go actionButton small">&lt;</a>
+				<?php
+
+					$data = simplexml_load_file($sabURL."/sabnzbd/api?mode=history&start=0&limit=5&output=xml&apikey=".$config['sabnzbdAPI']);
+					echo "<ul>";
+					foreach($data->slots[0] as $slot) {
+						echo "<li>".$slot->category." - ".$slot->nzb_name."</li>";
+					}
+					echo "</ul>";
+				?>
+			</div>
+			<?php endif; ?>
+		</div></div>
 
 		<?php ## uTorrent Web GUI ?>
 		<?php if( $config['uTorrent'] ) : ?>
 		<section class="clearfix">
 			<a href="http://<?= $config['uTorrentURL']; ?>:<?= $config['uTorrentPort']; ?>/gui/" title="uTorrent" class="actionButton big utorrent"><span>uTorrent</span></a>
 
-			<div class="sabDownload">
-				<h2>Currently Downloading</h2>
-				<?php
+			<div class="downloadFrame">
+				<div class="downloadPage downloadPageCurrent">
+					<h2>Currently Downloading</h2>
+					<?php
 
-			        $utorrent = new uTorrentAPI($config);
+				        $utorrent = new uTorrentAPI($config);
 
-			        // Create some variables
-			        $torrentAPI = $utorrent->get_torrent_list();
-			        $torrents = $torrentAPI['torrents'];
-			        $torrentsComplete = array();
-			        $torrentsDownloading = array();
+				        // Create some variables
+				        $torrentAPI = $utorrent->get_torrent_list();
+				        $torrents = $torrentAPI['torrents'];
+				        $torrentsComplete = array();
+				        $torrentsDownloading = array();
 
-			        // Run through each torrent and insert in to appropriate variables
-			        foreach($torrents as $torrent) {
-			            if($torrent[4] == "1000") {
-			                array_push($torrentsComplete, $torrent);
-			            } else {
-			                array_push($torrentsDownloading, $torrent);
-			            }
-			        }
+				        // Check if any results are returned
+				        if(sizeof($torrents)==0) {
 
-			        // Cut off array at 5 each
-			        $torrentsDownloading = array_slice($torrentsDownloading,0,5);
+				        	echo "<em>No current downloads</em>";
 
-			        // List all pending downloads
-			        foreach($torrentsDownloading as $torrentDone) {
-			            $name = $torrentDone[2];
-			            $sizeFull = $torrentDone[3];
-			            $sizeDone = $torrentDone[5];
-			            $percentage = $torrentDone[4]/10;
-			            $speed = $torrentDone[9];
+				        } else {
 
-			            echo "<div class='torrent'>";
-			            echo $name;
-			            echo "<progress value='".$sizeDone."' max='".$sizeFull."'></progress>";
-			            echo "<span class='stats'>";
-			            echo ByteSize($sizeDone)." / ".ByteSize($sizeFull)." (".$percentage."%)";
-			            echo " @ " .ByteSize($speed);
-			            echo "</span>";
-			            echo "</div>";
-			        }
-			        
-				?>
+					        // Run through each torrent and insert in to appropriate variables
+					        foreach($torrents as $torrent) {
+					            if($torrent[4] == "1000") {
+					                array_push($torrentsComplete, $torrent);
+					            } else {
+					                array_push($torrentsDownloading, $torrent);
+					            }
+					        }
+
+					        // Cut off array at 5 each
+					        $torrentsDownloading = array_slice($torrentsDownloading,0,5);
+
+					        // List all pending downloads
+					        foreach($torrentsDownloading as $torrentDone) {
+					            $name = $torrentDone[2];
+					            $sizeFull = $torrentDone[3];
+					            $sizeDone = $torrentDone[5];
+					            $percentage = $torrentDone[4]/10;
+					            $speed = $torrentDone[9];
+
+					            echo "<div class='torrent'>";
+					            echo $name;
+					            echo "<progress value='".$sizeDone."' max='".$sizeFull."'></progress>";
+					            echo "<span class='stats'>";
+					            echo ByteSize($sizeDone)." / ".ByteSize($sizeFull)." (".$percentage."%)";
+					            echo " @ " .ByteSize($speed);
+					            echo "</span>";
+					            echo "</div>";
+					        }
+
+					    }
+
+					?>
+				</div>
+			</div>
+		</section>
+		<?php endif; ?>
+
+		<?php if($config['transmission']) : ?>	
+		<section class="clearfix">
+			<a href="<?= $transmissionURL; ?>" title="Transmission" class="actionButton big transmission"><span>Transmission</span></a>
+
+			<div class="downloadFrame">
+				<div class="downloadPage downloadPageCurrent">
+					<h2>Currently Downloading</h2>
+					<?php
+						//$transmissionAPI = new TransmissionRPC($transmissionURL."/transmission/rpc", null, null, true);
+
+$rpc = new TransmissionRPC();
+$rpc->url = $transmissionURL."/transmission/rpc";
+
+					?>
+				</div>
 			</div>
 		</section>
 		<?php endif; ?>
 
 		<?php ## Wifi ?>
 		<?php if( $config['showWifi'] ) : ?>
-			<div class="wifi clearfix">
+			<div class="wifi">
 				<h2>Wifi Password for <?= $config['wifiName'] ?></h2>
 				<big><?= $config['wifiPassword']; ?></big>
 			</div>
@@ -216,6 +270,7 @@
 		<?php ## Ending check for all-disabled ?>
 		<?php endif; ?>
 
-
+		<script src="intranet/js/jquery.js"></script>
+		<script src="intranet/js/scripts.js"></script>
 	</body>
 </html>

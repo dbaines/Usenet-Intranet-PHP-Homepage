@@ -8,6 +8,7 @@
 		"headphones" => true,
 		"sabnzbd" => true,
 		"uTorrent" => true,
+		"transmission" => false,
 
 		# URLs and Ports
 		"sickbeardURL" => "192.168.1.1",
@@ -22,6 +23,8 @@
 		"headphonesPort" => "8181",
 		"uTorrentURL" => "192.168.1.1",
 		"uTorrentPort" => "8089",
+		"transmissionURL" => "192.168.1.1",
+		"transmissionPort" => "9091",
 
 		# Usernames and Passwords
 		# If not using usernames or passwords, leave these to false.
@@ -32,6 +35,8 @@
 		"sabnzbdPassword" => "admin",
 		"uTorrentUsername" => "admin",
 		"uTorrentPassword" => "admin",
+		"transmissionUsername" => false,
+		"transmissionPassword" => false,
 
 		# Sickbeard - Missed or Coming?
 		# Australia, for example, is almost an entire day ahead of America and so American TV shows 

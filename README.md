@@ -25,8 +25,16 @@ Ideally this would go on the root of your web server, which is why the intranet 
 To configure the page you will need to open the intranet folder and rename serverconfig-example.php to serverconfig.php
 Open the config file and make the appropriate changes to the IPs, Ports, API Keys, Usernames and Passwords.
 
+## Requirements
+
+Your webserver will require:
+
+* cURL 
+* PHP 
+
 ## Updating
 
 If something goes wrong after updating, please consult the latest serverconfig-example.php file. Odds are something's changed and you'll need to either:
-* Update your serverconfig.php with the changes
-* Rename serverconfig-example.php to serverconfig.php and copy in the settings from your old serverconfig.php
+
+* Update your serverconfig.php with the changes  
+* Rename serverconfig-example.php to serverconfig.php and copy in the settings from your old serverconfig.php  
