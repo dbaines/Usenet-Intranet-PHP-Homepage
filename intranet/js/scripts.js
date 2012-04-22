@@ -13,14 +13,40 @@ $(function() {
 		}
 	});
 
-	// Fix for popups on multi-line shows
+	// Some helper scripts for the show poster
 	$(".sickbeardShows li").each(function() {
+
+		// Fix for popups on multi-line shows
 		// Get half of the height of this li
 		var liHeight = $(this).height() / 2,
 			// 90 is half of the height of the poseter
 			newHeight = 90 - liHeight;
+			popup = $(this).find(".showPopup");
 		// Set top postion based on that
-		$(this).find(".showPopup").css("top",-newHeight);
+		popup.css("top",-newHeight);
+
+	});
+	$(".sickbeardShows li").hover(function() {
+
+		var popup = $(this).find(".showPopup");
+		// reset position
+		popup.stop().css({
+			"left": "-170px",
+			"opacity": 0
+		});
+		// Animate position
+		popup.stop().animate({
+			"left": "-146px",
+			"opacity": 1
+		}, 200);
+
+	}, function() {
+
+		var popup = $(this).find(".showPopup");
+		popup.stop().animate({
+			"left": "-170px",
+			"opacity": 0
+		}, 200);
 	});
 
 });
