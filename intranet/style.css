@@ -84,6 +84,17 @@ h2 {padding-bottom: 10px;}
 		.snatchedShows li.sd {background-image: url("images/sd.png");}
 		.snatchedShows li.hd {background-image: url("images/hd.png");}
 
+	/* Season Start Date specific */
+	.seasonStarts li {min-height: 112px;}
+	.seaonStarts strong {font-size: 120%;}
+	.showbanner {float: right; width: 600px;
+		-webkit-box-shadow: 0 0 8px rgba(0,0,0,0.3);
+		-moz-box-shadow: 0 0 8px rgba(0,0,0,0.3);
+		-ms-box-shadow: 0 0 8px rgba(0,0,0,0.3);
+		-o-box-shadow: 0 0 8px rgba(0,0,0,0.3);
+		box-shadow: 0 0 8px rgba(0,0,0,0.3);
+		    }
+
 /* =========================================================
 
 	DOWNLOAD DETAILS

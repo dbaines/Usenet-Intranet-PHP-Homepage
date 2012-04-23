@@ -38,14 +38,8 @@ $sbJSON = json_decode(file_get_contents($feed));
 					$newDate = date("l, j F Y", strtotime($show->{airdate}));
 					// Show Details
 					echo "<li>";
-					
-					if($config ['sickPopups']) :
-						echo "<span class='showPopup'>";
-						echo "<img src='http://".$ip."/showPoster/?show=".$show->{'tvdbid'}."&which=poster' class='showposter' />";
-						echo "</span>";
-					endif;
-					
-					echo "<strong>".$show->{show_name} . "</strong><br />Season " . $show->{season} . " Starts " .$newDate;
+					echo "<img src='http://".$ip."/showPoster/?show=".$show->{'tvdbid'}."&which=banner' class='showbanner' />";
+					echo "<strong>".$show->{show_name} . "</strong><br />Season " . $show->{season} . "<br /><br />Starts " .$newDate;
 					echo "</li>";
 				}
 			}
