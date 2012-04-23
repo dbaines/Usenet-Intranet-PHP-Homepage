@@ -26,7 +26,7 @@ $(function() {
 		popup.css("top",-newHeight);
 
 	});
-	$(".sickbeardShows li").hover(function() {
+	$(".sickbeardShows li, .seasonStarts li").hover(function() {
 
 		var popup = $(this).find(".showPopup");
 		// reset position

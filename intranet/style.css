@@ -47,7 +47,7 @@ h2 {padding-bottom: 10px;}
 	.actionButton.sabnzb span {background-image: url("images/sab.png");}
 	.actionButton.utorrent span {background-image: url("images/utorrent.png");}
 
-	.secondaryButtons {padding-top: 30px;}
+	.secondaryButtons {padding-top: 30px; width: 696px;}
 	.actionButton.icon span {background-position: 0 50%; background-repeat: no-repeat; padding-left: 25px;}
 	.actionButton.iconTrailer span {background-image: url("images/trailers.png");}
 
@@ -62,19 +62,27 @@ h2 {padding-bottom: 10px;}
 .sickbeardShows {float: right; width: 205px; padding-bottom: 10px; margin-top: -35px;}
 	.sickbeardShows h3 {padding-bottom: 10px;}
 	.sickbeardShows ul,
-	.sickbeardShows li {list-style: none; padding: 0; margin: 0;}
-	.sickbeardShows li {padding: 10px 0; border-top: 1px solid rgba(0,0,0,0.1); position: relative;}
+	.sickbeardShows li,
+	.seasonStarts ul,
+	.seasonStarts li {list-style: none; padding: 0; margin: 0;}
+	.sickbeardShows li,
+	.seasonStarts li {padding: 10px 0; border-top: 1px solid rgba(0,0,0,0.1); position: relative;}
 	.sickbeardShows .showep {font-size: 80%;}
 
 	.showPopup {position: absolute; width: auto; left: -146px; top: -72px; background: rgba(0,0,0,0.9); display: none; box-shadow: 0 0 20px rgba(0,0,0,0.2); z-index: 5;}
 		.showPopup:after {content: ""; width: 0; height: 0; border-top: 10px solid transparent; border-bottom: 10px solid transparent; border-left: 10px solid rgba(0,0,0,0.9); position: absolute; margin-top: -5px; top: 50%; right: -10px; display: block;}
 		.showPopupBlurb {color: #fff; text-shadow: none; font-size: 85%; padding: 10px; display: block;}
-	.sickbeardShows li:hover .showPopup {display: block;}
+	.sickbeardShows li:hover .showPopup,
+	.seasonStarts li:hover .showPopup {display: block;}
 	.showposter {height: 180px; padding: 5px; float: left;}
 
 	.snatchedShows li {background: url("images/tick.png") left no-repeat; padding-left: 25px;}
 		.snatchedShows strong {color: #346d90; font-weight: normal;}
 		.snatchedShows .showPopup {top: -80px;}
+
+		/* If we know what quality was snatched, show a relevant icon */
+		.snatchedShows li.sd {background-image: url("images/sd.png");}
+		.snatchedShows li.hd {background-image: url("images/hd.png");}
 
 /* =========================================================
 

@@ -88,19 +88,28 @@
 
 					if (substr($episode->date,0,10) == $todaysDate && $episode->status == "Snatched") :
 
-					echo "<li>";
+						// Check Quality Snatched
+						if ($episode->{quality} == "SD TV") :
+							$quality = "sd";
+						elseif ($episode->{quality} == "HD TV") :
+							$quality = "hd";
+						endif;
 
-					# Sickbeard Popups
-					if($config ['sickPopups']) :
-					echo "<span class='showPopup'>";
-					echo "<img src='".$sickbeardURL."/showPoster/?show=".$episode->{'tvdbid'}."&which=poster' class='showposter' />";
-					echo "</span>";
+						echo "<li class=".$quality.">";
+
+						# Sickbeard Popups
+						if($config ['sickPopups']) :
+						echo "<span class='showPopup'>";
+						echo "<img src='".$sickbeardURL."/showPoster/?show=".$episode->{'tvdbid'}."&which=poster' class='showposter' />";
+						echo "</span>";
+						endif;
+
+						# Show name and number
+						echo "<strong class='showname'>".$episode->{'show_name'}." <small>".$episode->{'season'}."x".$episode->{'episode'}."</small></strong>";
+						echo "</li>";
+
 					endif;
 
-					# Show name and number
-					echo "<strong class='showname'>".$episode->{'show_name'}." <small>".$episode->{'season'}."x".$episode->{'episode'}."</small></strong>";
-					echo "</li>";
-					endif;
 				} 
 				echo "</ul>";
 
@@ -269,10 +278,15 @@ $rpc->url = $transmissionURL."/transmission/rpc";
 
 			<?php if ( !empty($config['bookmarks']) ) {
 				foreach ($config['bookmarks'] as $bookmark) {
+
+					// Check for custom icon, otherwise use favicon from website
+					if($bookmark['icon']) {
+						$icon = $bookmark['icon'];
+					} else {
+						$icon = $bookmark['url']."/favicon.ico";
+					}
 					
-					//var_dump($bookmark);
-					// echo $bookmark['label'];
-					echo "<a href='".$bookmark['url']."' target='_blank' class='actionButton small icon'><span style='background-image: url(".$bookmark['url']."/favicon.ico);'>".$bookmark['label']."</span></a>";
+					echo "<a href='".$bookmark['url']."' target='_blank' class='actionButton small icon'><span style='background-image: url(".$icon.");'>".$bookmark['label']."</span></a>";
 
 				}
 			}

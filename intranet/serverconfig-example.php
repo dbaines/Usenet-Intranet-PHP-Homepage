@@ -64,8 +64,9 @@
 				"url" => "http://www.nzbmatrix.com",
 			),
 			1 => array(
-				"label" => "Google",
-				"url" => "http://www.google.com.au",
+				"label" => "Season Start Dates",
+				"url" => "intranet/comingseasons.php",
+				"icon" => "intranet/images/tv.png",
 			),
 		),
 
