@@ -2,28 +2,6 @@
 <?php include('intranet/lib/functions.php'); ?>
 <?php if($config['uTorrent']) {include('intranet/lib/utorrent_php_api.php');} ?>
 <?php if($config['transmission']) {include('intranet/lib/transmissionrpc.class.php');} ?>
-<?php 
-
-	## Setting up URL structures
-	if($config['sickbeardUsername']) {
-		$sickbeardURL = "http://".$config['sickbeardUsername'].":".$config['sickbeardPassword']."@".$config['sickbeardURL'].":".$config['sickbeardPort'];
-	} else {
-		$sickbeardURL = "http://".$config['sickbeardURL'].":".$config['sickbeardPort'];
-	}
-
-	if($config['sabnzbdUsername']) {
-		$sabURL = "http://".$config['sabnzbdUsername'].":".$config['sabnzbdPassword']."@".$config['sabnzbdURL'].":".$config['sabnzbdPort'];
-	} else {
-		$sabURL = "http://".$config['sabnzbdURL'].":".$config['sabnzbdPort'];
-	}
-
-	if($config['transmissionUsername']) {
-		$transmissionURL = "http://".$config['transmissionURL'].":".$config['transmissionPort']."@".$config['transmissionUsername'].":".$config['transmissionPassword'];
-	} else {
-		$transmissionURL = "http://".$config['transmissionURL'].":".$config['transmissionPort'];
-	}
-
-?>
 <!doctype html>
 <html>
 	<head>
@@ -122,10 +100,10 @@
 		<a href="<?= $sickbeardURL; ?>" title="SickBeard" class="actionButton big sickbeard"><span>SickBeard</span></a>
 		<?php endif; ?>
 		<?php if( $config['couchpotato'] ) : ?>
-		<a href="http://<?= $config['couchpotatoURL']; ?>:<?= $config['couchpotatoPort']; ?>" title="CouchPoato" class="actionButton big couchpotato"><span>CouchPotato</span></a>
+		<a href="<?= $couchpotatoURL; ?>:<?= $config['couchpotatoPort']; ?>" title="CouchPoato" class="actionButton big couchpotato"><span>CouchPotato</span></a>
 		<?php endif; ?>
 		<?php if( $config['headphones'] ) : ?>
-		<a href="http://<?= $config['headphonesURL']; ?>:<?= $config['headphonesPort']; ?>" title="Headphones" class="actionButton big headphones"><span>Headphones</span></a>
+		<a href="<?= $headphonesURL; ?>" title="Headphones" class="actionButton big headphones"><span>Headphones</span></a>
 		<?php endif; ?>
 
 		<?php ## SABnzbd ?>
