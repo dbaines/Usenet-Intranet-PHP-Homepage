@@ -100,7 +100,7 @@
 		<a href="<?= $sickbeardURL; ?>" title="SickBeard" class="actionButton big sickbeard"><span>SickBeard</span></a>
 		<?php endif; ?>
 		<?php if( $config['couchpotato'] ) : ?>
-		<a href="<?= $couchpotatoURL; ?>:<?= $config['couchpotatoPort']; ?>" title="CouchPoato" class="actionButton big couchpotato"><span>CouchPotato</span></a>
+		<a href="<?= $couchpotatoURL; ?>" title="CouchPoato" class="actionButton big couchpotato"><span>CouchPotato</span></a>
 		<?php endif; ?>
 		<?php if( $config['headphones'] ) : ?>
 		<a href="<?= $headphonesURL; ?>" title="Headphones" class="actionButton big headphones"><span>Headphones</span></a>
