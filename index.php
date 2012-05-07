@@ -25,7 +25,12 @@
 		<div class="sickbeardShows">
 			<h3>TV Today</h3>
 			<?php
-				$sbJSON = file_get_contents($sickbeardURL."/api/".$config['sickbeardAPI']."/?cmd=future&sort=date&type=".$sbType);
+
+				$sbJSONURL = $sickbeardURL."/api/".$config['sickbeardAPI']."/?cmd=future&sort=date&type=".$sbType;
+
+				if($config['debug']) {echo "TV Today URL: ".$sbJSONURL;}
+
+				$sbJSON = file_get_contents($sbJSONURL);
 				$sbShows = json_decode($sbJSON);
 
 				echo "<ul class='comingShows'>";
@@ -54,9 +59,12 @@
 				}
 				echo "</ul>";
 
-				$sbJSONdone = file_get_contents($sickbeardURL."/api/".$config['sickbeardAPI']."/?cmd=history&limit=50");
+				$sbJSONdoneURL = $sickbeardURL."/api/".$config['sickbeardAPI']."/?cmd=history&limit=50";
+				$sbJSONdone = file_get_contents($sbJSONdoneURL);
 				$sbShowsdone = json_decode($sbJSONdone);
 				$todaysDate = date('Y-m-d');
+
+				if($config['debug']){echo "TV Complete Today URL: ".$sbJSONdoneURL;}
 
 				echo "<ul class='snatchedShows'>";
 
@@ -116,7 +124,9 @@
 				<a href="#" class="go actionButton small">&gt;</a>
 				<?php
 
-					$data = simplexml_load_file($sabURL."/sabnzbd/api?mode=qstatus&output=xml&apikey=".$config['sabnzbdAPI']);
+					$sabStatusXML = $sabURL."/sabnzbd/api?mode=qstatus&output=xml&apikey=".$config['sabnzbdAPI'];
+					if($config['debug']){echo "SABnzbd Status URL: ".$sabStatusXML;}
+					$data = simplexml_load_file($sabStatusXML);
 					$filename = $data->jobs[0]->job->filename;
 					$mbFull = $data->jobs[0]->job->mb;
 					$mbLeft = $data->jobs[0]->job->mbleft;

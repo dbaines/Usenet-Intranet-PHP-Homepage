@@ -52,6 +52,9 @@
 		# Show popups when hovering over coming shows?
 		"sickPopups" => true,
 
+		# Debug
+		"debug" => false,
+
 		# Show trailers button
 		"showTrailers" => true,
 
