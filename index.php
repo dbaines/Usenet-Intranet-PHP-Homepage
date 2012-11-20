@@ -7,6 +7,7 @@
 	<head>
 		<title><?= $config['wifiName']; ?> Intranet</title>
 		<link rel="stylesheet" href="intranet/style.css" />
+		<link rel="shortcut icon" href="favicon.ico" />
 	</head>
 	<body>
 		<h1><?= $config['wifiName']; ?> Server</h1>
