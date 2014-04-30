@@ -124,7 +124,7 @@
 				<h2>Currently Downloading</h2>
 				<a href="#" class="go actionButton small">&gt;</a>
 				<?php
-
+					libxml_disable_entity_loader(false); //This fixes the Warning: simplexml_load_file(): I/O warning : failed to load external entity "xxxxxx" on line "xxxxxx", error in the latest version of SABNzbd;
 					$sabStatusXML = $sabURL."/sabnzbd/api?mode=qstatus&output=xml&apikey=".$config['sabnzbdAPI'];
 					if($config['debug']){echo "SABnzbd Status URL: ".$sabStatusXML;}
 					$data = simplexml_load_file($sabStatusXML);
